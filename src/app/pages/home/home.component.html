@@ -1,0 +1,63 @@
+  <mat-toolbar color="primary" class="toolbar-container">
+    Flight Information App
+    <ng-container *ngIf="authService.currentUser$ | async as user; else loginButton">
+      <button mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Logout
+      </button>
+    </ng-container>
+    <ng-template #loginButton>
+      <button mat-button routerLink="login">
+        <mat-icon>login</mat-icon>
+        Login
+      </button>
+    </ng-template>
+  </mat-toolbar>
+  
+  <main>
+  <div class="container">
+    <form [formGroup]="flightForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Airline</mat-label>
+        <input matInput formControlName="airline" required>
+        <mat-error *ngIf="airline?.errors?.['required']">Airline is required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Arrival Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="arrivalDate" required [min]="today">
+        <mat-error *ngIf="arrivalDate?.errors?.['required']">Arrival Date is required</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Arrival Time</mat-label>
+        <input matInput formControlName="arrivalTime" required>
+        <mat-error *ngIf="arrivalTime?.errors?.['required']">Arrival Time is required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Flight Number</mat-label>
+        <input matInput formControlName="flightNumber" required>
+        <mat-error *ngIf="flightNumber?.errors?.['required']">Flight Number is required</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Number of Guests</mat-label>
+        <input matInput type="number" formControlName="numOfGuests" required>
+        <mat-error *ngIf="numOfGuests?.errors?.['required']">Guests are required</mat-error>
+        <mat-error *ngIf="numOfGuests?.errors?.['min']">Minimum Guest 1</mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Comments</mat-label>
+        <textarea matInput formControlName="comments"></textarea>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+  </div>
+</main>
+
+  
